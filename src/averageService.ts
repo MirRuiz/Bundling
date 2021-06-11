@@ -4,4 +4,6 @@ export function getAvg(scores) {
 
 function getTotalScore(scores) {
     return scores.reduce((score, count) => score + count);
-}
+};
+
+export const a: number = 5;

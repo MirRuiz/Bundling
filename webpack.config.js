@@ -5,8 +5,11 @@ const path = require("path");
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
+  resolve: {
+    extensions:[".js",".ts", ".tsx"],
+  },
   entry: {
-    app: "./index.js",
+    app: "./index.tsx",
     appStyles: "./mystyles.scss",
   },
   output: {
@@ -16,14 +19,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         loader: "babel-loader",
       },
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        use:[ MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /\.css$/,
@@ -36,9 +39,16 @@ module.exports = {
         ],
       },
       {
-        test:/\.(png|jpg)$/,
+        test: /\.(png|jpg)$/,
         type: "asset/resource",
       },
+      {
+        test:/\.html$/,
+        exclude:/node_modules/,
+        loader: "html-loader"
+           
+      },
+
     ],
   },
   plugins: [
@@ -46,7 +56,6 @@ module.exports = {
       filename: "index.html",
       template: "index.html",
       scriptLoading: "blocking",
-      
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
@@ -54,4 +63,8 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
   ],
+  devtool:"eval-source-map",
+  devServer: {
+    stats: "errors-only",
+  },
 };
